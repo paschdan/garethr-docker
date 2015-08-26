@@ -42,6 +42,7 @@ define docker::run(
   $memory_limit = '0b',
   $cpuset = [],
   $ports = [],
+  $labels = [],
   $expose = [],
   $volumes = [],
   $links = [],
@@ -124,6 +125,7 @@ define docker::run(
     memory_limit    => $memory_limit,
     net             => $net,
     ports           => any2array($ports),
+    labels          => any2array($labels),
     privileged      => $privileged,
     socket_connect  => any2array($socket_connect),
     tty             => $tty,
@@ -149,6 +151,7 @@ define docker::run(
       unless      => "docker ps --no-trunc -a | grep `cat ${cidfile}`",
       environment => 'HOME=/root',
       path        => ['/bin', '/usr/bin'],
+      timeout     => 0
     }
   } else {
 
